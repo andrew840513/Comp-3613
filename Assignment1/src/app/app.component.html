@@ -1,0 +1,53 @@
+<nav id="navbar" class="navbar navbar-default ace-save-state">
+  <div class="navbar-container ace-save-state" id="navbar-container">
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+      <span class="sr-only">Toggle sidebar</span>
+
+      <span class="icon-bar"></span>
+
+      <span class="icon-bar"></span>
+
+      <span class="icon-bar"></span>
+    </button>
+
+    <div class="navbar-header">
+      <a routerLink="/home" routerLinkActive="active" class="navbar-brand">
+        <small>
+          <i class="fa fa-leaf"></i>
+          Ionblaster Crop Employee Managment System
+        </small>
+      </a>
+    </div>
+  </div><!-- /.navbar-container -->
+</nav>
+
+<main class="main-container ace-save-state" id="main-container">
+  <aside id="sidebar" class="sidebar                  responsive                    ace-save-state">
+    <ul class="nav nav-list">
+      <li class="">
+        <a routerLink="/manage" routerLinkActive="active">
+          <i class="menu-icon fa fa-tachometer"></i>
+          <span class="menu-text"> Management </span>
+        </a>
+      </li>
+    </ul><!-- /.nav-list -->
+  </aside>
+
+  <main class="main-content">
+    <div class="main-content-inner">
+      <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <a routerLink="/home" routerLinkActive="active">Home</a>
+        </ul><!-- /.breadcrumb -->
+      </div>
+
+      <div class="page-content">
+        <!-- Where router should display a view -->
+        <router-outlet></router-outlet>
+      </div><!-- /.page-content -->
+    </div>
+  </main><!-- /.main-content -->
+  <footer>
+  </footer>
+</main><!-- /.main-container -->
+

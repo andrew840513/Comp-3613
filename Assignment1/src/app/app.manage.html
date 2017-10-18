@@ -1,0 +1,32 @@
+<a routerLink="/create" routerLinkActive="active">
+  <button type="button" class="btn btn-primary">Create</button>
+</a>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Employee ID</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>phone</th>
+    <th>Email</th>
+    <th>Address</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let employee of data">
+    <td>{{employee.employeeID}}</td>
+    <td>{{employee.firstName}}</td>
+    <td>{{employee.lastName}}</td>
+    <td *ngIf="employee.phoneNumber != 'null';else empty">{{employee.phoneNumber}}</td>
+    <td *ngIf="employee.email != 'null';else empty">{{employee.email}}</td>
+    <td *ngIf="employee.address != 'null';else empty">{{employee.address}},{{employee.city}} {{employee.zip}}</td>
+    <td>
+      <button type="button" class="btn btn-info" routerLink="/edit/{{employee.employeeID}}" routerLinkActive="active">Edit</button>
+      <button type="button" class="btn btn-danger">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #empty><td></td></ng-template>
