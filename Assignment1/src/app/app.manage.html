@@ -14,18 +14,18 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let employee of data">
-    <td>{{employee.employeeID}}</td>
-    <td>{{employee.firstName}}</td>
-    <td>{{employee.lastName}}</td>
-    <td *ngIf="employee.phoneNumber != 'null';else empty">{{employee.phoneNumber}}</td>
-    <td *ngIf="employee.email != 'null';else empty">{{employee.email}}</td>
-    <td *ngIf="employee.address != 'null';else empty">{{employee.address}},{{employee.city}} {{employee.zip}}</td>
-    <td>
-      <button type="button" class="btn btn-info" routerLink="/edit/{{employee.employeeID}}" routerLinkActive="active">Edit</button>
-      <button type="button" class="btn btn-danger">Delete</button>
-    </td>
-  </tr>
+    <tr *ngFor="let employee of data">
+      <td>{{employee.employeeID}}</td>
+      <td>{{employee.firstName}}</td>
+      <td>{{employee.lastName}}</td>
+      <td *ngIf="employee.phoneNumber != 'null';else empty">{{employee.phoneNumber}}</td>
+      <td *ngIf="employee.email != 'null';else empty">{{employee.email}}</td>
+      <td *ngIf="employee.address != 'null';else empty">{{employee.address}},{{employee.city}} {{employee.zip}}</td>
+      <td>
+        <button type="button" class="btn btn-info" routerLink="/edit/{{employee.employeeID}}" routerLinkActive="active">Edit</button>
+        <button type="button" class="btn btn-danger" (click)="deleteUser(employee.employeeID)">Delete</button>
+      </td>
+    </tr>
   </tbody>
 </table>
 

@@ -10,8 +10,11 @@ import {AjaxService} from './app.ajaxservice';
 export class AppManageComponent {
   _ajaxService: AjaxService;
   url = 'request?User=All';
-  testUrl = 'assets/test.json';
+  deleteUrl = 'request?delete=';
+  testUrl = 'http://localhost:8080/A00962243_Assignment1/request?User=All';
   data;
+  message;
+
   constructor(ajaxService: AjaxService) {
     this._ajaxService = ajaxService;
     this._ajaxService.setData(this.url);
@@ -22,6 +25,23 @@ export class AppManageComponent {
     this._ajaxService.getData().subscribe(
       data => {
         this.data = data;
+        console.log(data);
+      },
+      error => {
+      },
+      () => {
+      });
+  }
+
+  deleteUser(ID) {
+    const newUrl = this.deleteUrl + ID;
+    this._ajaxService.setData(newUrl);
+    this.deleteData();
+  }
+  deleteData() {
+    this._ajaxService.getData().subscribe(
+      data => {
+        this.message = data;
         console.log(data);
       },
       error => {

@@ -14,7 +14,7 @@ export class AppEditComponent {
   id;
   data;
   url = 'request?User=';
-  testURL = 'assets/123456.json';
+  testUrl = 'http://localhost:8080/A00962243_Assignment1/request?User=';
 
   title = 'Edit employee file';
   decline = 'cancel';
@@ -34,7 +34,7 @@ export class AppEditComponent {
     this.activatedRoute.params.subscribe(params => {
       this.id = params.id;
     });
-    this.url += this.id;
+    this.testUrl += this.id;
     console.log(this.url);
     this._ajaxService = ajaxService;
     this._ajaxService.setData(this.url);

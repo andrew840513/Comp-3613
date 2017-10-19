@@ -27,7 +27,7 @@ export class AjaxService {
   }
 
   postData(): Observable<string[]> {
-    return this.http.post(this.dataUrl, this.body,)
+    return this.http.post(this.dataUrl, this.body)
       .map(this.extractData)
       .catch(this.handleError);
   }
