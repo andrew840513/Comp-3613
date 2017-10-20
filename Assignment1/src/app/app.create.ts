@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {NgForm} from "@angular/forms";
-import {AjaxService} from "./app.ajaxservice";
-import {Router} from "@angular/router";
-import {forEach} from "@angular/router/src/utils/collection";
+import {NgForm} from '@angular/forms';
+import {AjaxService} from './app.ajaxservice';
+import {Router} from '@angular/router';
+import {Employee, provinces} from './app.data-model';
 
 @Component({
   selector: 'app-root',
@@ -13,37 +13,22 @@ import {forEach} from "@angular/router/src/utils/collection";
 export class AppCreateComponent {
   _ajaxService: AjaxService;
   url = 'request';
-  testurl = 'http://localhost:8080/A00962243_Assignment1/request';
   body;
 
   title = 'Create new employee file';
   decline = 'cancel';
-  provinces = ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
+  provinces = provinces;
 
   data;
   message;
   errorMessage;
 
-  // input field
-  firstName;
-  lastName;
-  phoneNumber;
-  email;
-  address;
-  city;
-  province;
-  zip;
+  employee;
+
   constructor(private ajaxService: AjaxService, private router: Router) {
     this._ajaxService = ajaxService;
     this._ajaxService.setData(this.url);
-    this.firstName = '';
-    this.lastName = '';
-    this.phoneNumber = '';
-    this.email = '';
-    this.address = '';
-    this.city = '';
-    this.province = '';
-    this.zip = '';
+    this.employee = new Employee();
   }
 
   createUser(form: NgForm) {

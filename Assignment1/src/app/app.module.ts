@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {AppHomeComponent} from './app.home';
 import {AppManageComponent} from './app.manage';
-import {AppCreateComponent} from "./app.create";
+import {AppCreateComponent} from './app.create';
 import {AppEditComponent} from './app.edit';
 import {HttpModule} from '@angular/http';
 import {routing} from './app.routing';

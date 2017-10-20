@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {NgForm} from "@angular/forms";
-import {AjaxService} from "./app.ajaxservice";
-import {ActivatedRoute, Router} from "@angular/router";
+import {NgForm} from '@angular/forms';
+import {AjaxService} from './app.ajaxservice';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Employee, provinces} from './app.data-model';
 
 @Component({
   selector: 'app-root',
@@ -14,28 +15,23 @@ export class AppEditComponent {
   id;
   data;
   url = 'request?User=';
-  testUrl = 'http://localhost:8080/A00962243_Assignment1/request?User=';
 
   title = 'Edit employee file';
   decline = 'cancel';
-  provinces = ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
+  provinces = provinces;
 
-  // input field
-  firstName;
-  lastName;
-  phoneNumber;
-  email;
-  address;
-  city;
-  province;
-  zip;
+  employee: Employee;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, ajaxService:AjaxService) {
+  message;
+  errorMessage;
+  body;
+
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, ajaxService: AjaxService) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params.id;
     });
-    this.testUrl += this.id;
-    console.log(this.url);
+    this.url += this.id;
+    this.employee = new Employee();
     this._ajaxService = ajaxService;
     this._ajaxService.setData(this.url);
     this.getData();
@@ -45,14 +41,14 @@ export class AppEditComponent {
     this._ajaxService.getData().subscribe(
       data => {
         this.data = data;
-        this.firstName = this.data.firstName;
-        this.lastName = this.data.lastName;
-        this.phoneNumber = this.data.phoneNumber;
-        this.email = this.data.email;
-        this.address = this.data.address;
-        this.city = this.data.city;
-        this.province = this.data.province;
-        this.zip = this.data.zip;
+        this.employee.firstName = this.data.firstName;
+        this.employee.lastName = this.data.lastName;
+        this.employee.phoneNumber = this.data.phoneNumber;
+        this.employee.email = this.data.email;
+        this.employee.address = this.data.address;
+        this.employee.city = this.data.city;
+        this.employee.province = this.data.province;
+        this.employee.zip = this.data.zip;
       },
       error => {
       },
@@ -61,6 +57,25 @@ export class AppEditComponent {
   }
 
   createUser(form: NgForm) {
-    console.log(form.value);
+    this.body = form.value;
+    this.body.employeeID = this.id;
+    this._ajaxService.setBody(this.body);
+    this.sendData();
+  }
+
+  sendData(){
+    this._ajaxService.postData().subscribe(
+      data => {
+        this.data = data;
+        this.message = this.data.message;
+        setTimeout((router: Router) => {
+          this.router.navigateByUrl('/manage');
+        }, 1500);
+      }, error => {
+        this.errorMessage = 'Server error plese create again';
+      },
+      () => {
+      }
+    );
   }
 }
