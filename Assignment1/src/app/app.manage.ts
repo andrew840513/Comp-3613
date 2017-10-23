@@ -11,9 +11,12 @@ export class AppManageComponent {
   _ajaxService: AjaxService;
   url = 'request?User=All';
   deleteUrl = 'request?delete=';
-  testUrl = 'http://localhost:8080/A00962243_Assignment1/request?User=All';
+
   data;
   message;
+  ID;
+
+  refreshText = 'No employee right now';
 
   constructor(ajaxService: AjaxService) {
     this._ajaxService = ajaxService;
@@ -21,16 +24,27 @@ export class AppManageComponent {
     this.getData();
   }
 
+  changeText(ID: String) {
+    this.ID = ID;
+  }
+
   getData() {
     this._ajaxService.getData().subscribe(
       data => {
         this.data = data;
-        console.log(data);
       },
       error => {
+        this.refreshText = 'No employee right now';
       },
       () => {
+        this.refreshText = 'No employee right now';
       });
+  }
+
+  getUser() {
+    this.refreshText = 'Fetching the data';
+    this._ajaxService.setData(this.url);
+    this.getData();
   }
 
   deleteUser(ID) {
@@ -38,15 +52,17 @@ export class AppManageComponent {
     this._ajaxService.setData(newUrl);
     this.deleteData();
   }
+
   deleteData() {
     this._ajaxService.getData().subscribe(
       data => {
         this.message = data;
-        console.log(data);
+        this.getUser();
       },
       error => {
       },
       () => {
       });
   }
+
 }

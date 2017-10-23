@@ -12,7 +12,7 @@ import {Employee, provinces} from './app.data-model';
 
 export class AppEditComponent {
   _ajaxService: AjaxService;
-  id;
+  id: number;
   data;
   url = 'request?User=';
 
@@ -22,10 +22,14 @@ export class AppEditComponent {
 
   employee: Employee;
 
-  message;
-  errorMessage;
+  message: String;
+  errorMessage: String;
+  error;
   body;
 
+  checked: Boolean;
+  checkInput: Boolean;
+  invalid;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, ajaxService: AjaxService) {
     this.activatedRoute.params.subscribe(params => {
       this.id = params.id;
@@ -41,29 +45,51 @@ export class AppEditComponent {
     this._ajaxService.getData().subscribe(
       data => {
         this.data = data;
-        this.employee.firstName = this.data.firstName;
-        this.employee.lastName = this.data.lastName;
-        this.employee.phoneNumber = this.data.phoneNumber;
-        this.employee.email = this.data.email;
-        this.employee.address = this.data.address;
-        this.employee.city = this.data.city;
-        this.employee.province = this.data.province;
-        this.employee.zip = this.data.zip;
+        this.employee = this.data;
       },
       error => {
+        this.errorMessage = 'Profile can\'t fetch from server';
       },
       () => {
       });
   }
 
   createUser(form: NgForm) {
-    this.body = form.value;
-    this.body.employeeID = this.id;
-    this._ajaxService.setBody(this.body);
-    this.sendData();
+    this.checked = true;
+    this.checkInput = true;
+    this.invalid = [];
+    if (!this.regex(form.value.phoneNumber.trim(), /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4}$/im)) {
+      this.invalid.push({'error': 'please enter correct phone number'});
+    }
+    if (!this.regex(form.value.email.trim(), /^(([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5}){1,25})+)*$/)) {
+      this.invalid.push({'error': 'please enter correct email address'});
+    }
+
+    if (!this.regex(form.value.address.trim(), /\d{1,3}.?\d{0,3}\s[a-zA-Z]{2,30}\s[a-zA-Z]{2,15}/)) {
+      this.invalid.push({'error': 'please enter correct address'});
+    }
+
+    if (!this.regex(form.value.city.trim(), /^[a-zA-Z]{2}[a-zA-Z]+$/)) {
+      this.invalid.push({'error': 'please enter correct city name'});
+    }
+
+    if (!this.regex(form.value.province.trim(), /^[a-zA-Z]{2}$/)) {
+      this.invalid.push({'error': 'please enter correct province'});
+    }
+
+    if (!this.regex(form.value.zip.trim(), /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/)) {
+      this.invalid.push({'error': 'please enter correct zip code'});
+    }
+
+    if (form.valid && this.checkInput) {
+      this.body = form.value;
+      this.body.employeeID = this.id;
+      this._ajaxService.setBody(this.body);
+      this.sendData();
+    }
   }
 
-  sendData(){
+  sendData() {
     this._ajaxService.postData().subscribe(
       data => {
         this.data = data;
@@ -72,10 +98,25 @@ export class AppEditComponent {
           this.router.navigateByUrl('/manage');
         }, 1500);
       }, error => {
+        this.error = error;
+        console.log(this.error);
         this.errorMessage = 'Server error plese create again';
       },
       () => {
       }
     );
+  }
+  private regex(input, regex): boolean {
+    const temp = new RegExp(regex);
+    if (input.trim() === '') {
+      this.checkInput = this.checkInput && true;
+      return true;
+    } else if (temp.test(input)) {
+      this.checkInput = this.checkInput && true;
+      return true;
+    } else {
+      this.checkInput = false;
+      return false;
+    }
   }
 }

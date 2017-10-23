@@ -9,4 +9,4 @@ export class Employee {
   zip = '';
 }
 
-export const provinces = ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
+export const provinces: string[] = ['AB', 'BC', 'MB', 'NB', 'NL', 'NW', 'NT', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
