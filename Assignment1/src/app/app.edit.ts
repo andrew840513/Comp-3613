@@ -46,6 +46,7 @@ export class AppEditComponent {
       data => {
         this.data = data;
         this.employee = this.data;
+        this.error = this.data.error;
       },
       error => {
         this.errorMessage = 'Profile can\'t fetch from server';
@@ -93,13 +94,14 @@ export class AppEditComponent {
     this._ajaxService.postData().subscribe(
       data => {
         this.data = data;
-        this.message = this.data.message;
-        setTimeout((router: Router) => {
-          this.router.navigateByUrl('/manage');
-        }, 1500);
+        this.error = this.data.error;
+        if (this.error == null) {
+          this.message = this.data.message;
+          setTimeout((router: Router) => {
+            this.router.navigateByUrl('/manage');
+          }, 1500);
+        }
       }, error => {
-        this.error = error;
-        console.log(this.error);
         this.errorMessage = 'Server error plese create again';
       },
       () => {

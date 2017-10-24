@@ -22,7 +22,7 @@ export class AppCreateComponent {
   data;
   message;
   errorMessage;
-
+  error;
   employee: Employee;
 
   checked: Boolean = false;
@@ -74,9 +74,12 @@ export class AppCreateComponent {
       data => {
         this.data = data;
         this.message = this.data.message;
-        setTimeout((router: Router) => {
-          this.router.navigateByUrl('/manage');
-        }, 1500);
+        this.error = this.data.error;
+        if (this.error == null) {
+          setTimeout((router: Router) => {
+            this.router.navigateByUrl('/manage');
+          }, 1500);
+        }
       }, error => {
         this.errorMessage = 'Server error plese create again';
       },

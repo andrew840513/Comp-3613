@@ -4,15 +4,21 @@
   <p>{{message}}</p><br>
   <p>this page will redirect to mange page in 1.5 second</p>
 </div>
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{errorMessage}}
+<div *ngIf="error" class="alert alert-danger">
+  {{error}}
 </div>
 <div *ngIf="checked">
-  <div *ngIf="firstName.invalid" class="alert alert-danger">
+  <div *ngIf="firstName.invalid && firstName.persistent" class="alert alert-danger">
     Please enter first name.
   </div>
-  <div *ngIf="lastName.invalid" class="alert alert-danger">
+  <div *ngIf="lastName.invalid && lastName.persistent" class="alert alert-danger">
     Please enter last name.
+  </div>
+  <div *ngIf="firstName.invalid && firstName.dirty" class="alert alert-danger">
+    Please enter correct first name.
+  </div>
+  <div *ngIf="lastName.invalid && lastName.dirty" class="alert alert-danger">
+    Please enter correct last name.
   </div>
   <div *ngFor="let error of invalid" class="alert alert-danger">
     {{error.error}}
@@ -22,12 +28,12 @@
 <form #createUsers="ngForm" (ngSubmit)="createUser(createUsers)" method="post">
   <div class="form-group" col-md-6 col-xl-6>
     <label for="firstName">First Name</label>
-    <input type="text" id="firstName" class="form-control" [(ngModel)]="employee.firstName" #firstName="ngModel" name="firstName" required>
+    <input type="text" id="firstName" class="form-control" pattern="^[a-zA-Z]+$" [(ngModel)]="employee.firstName" #firstName="ngModel" name="firstName" required>
   </div>
 
   <div class="form-group">
     <label for="lastName">Last Name</label>
-    <input type="text" id="lastName" class="form-control" [(ngModel)]="employee.lastName" #lastName="ngModel" name="lastName" required>
+    <input type="text" id="lastName" class="form-control" pattern="^[a-zA-Z]+$" [(ngModel)]="employee.lastName" #lastName="ngModel" name="lastName" required>
   </div>
 
   <div class="form-group">
